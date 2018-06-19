@@ -2,6 +2,7 @@ class CampaignsController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_campaign, only: [:show, :destroy, :update, :raffle]
+  before_action :is_owner?, only: [:show, :destroy, :update, :raffle]
   
   def show
   end
@@ -63,4 +64,13 @@ class CampaignsController < ApplicationController
     params.require(:campaign).permit(:title, :description, :event_date, :event_hour, :location).merge(user: current_user)
   end
 
+  def is_owner?
+    unless current_user == @campaign.user
+      respond_to do |format|
+        format.json { render json: false, status: :forbidden }
+        format.html { redirect_to main_app.root_url }
+      end
+    end
+  end
+  
 end
