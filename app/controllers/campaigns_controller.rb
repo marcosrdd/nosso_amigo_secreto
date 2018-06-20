@@ -3,7 +3,7 @@ class CampaignsController < ApplicationController
 
   before_action :set_campaign, only: [:show, :destroy, :update, :raffle]
   before_action :is_owner?, only: [:show, :destroy, :update, :raffle]
-  
+
   def show
   end
 
@@ -12,7 +12,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = Campaign.new(user: current_user, title: 'Nova Campanha', description: 'Descreva sua campanha...')
 
     respond_to do |format|
       if @campaign.save
@@ -72,5 +72,4 @@ class CampaignsController < ApplicationController
       end
     end
   end
-  
 end
