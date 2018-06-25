@@ -38,7 +38,12 @@ describe RaffleService do
       end
 
       it "a member x don't get a member y that get the member x" do
-        # Desafio
+        invert_results = @results.invert
+        @results.each do |r|
+          invert_results.each do |r_inv|
+            expect(r).not_to eq(r_inv) 
+          end
+        end
       end
 
     end
