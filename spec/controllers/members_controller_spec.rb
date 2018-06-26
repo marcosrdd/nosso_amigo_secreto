@@ -14,12 +14,24 @@ RSpec.describe MembersController, type: :controller do
     before(:each) do
       @new_member_attributes = attributes_for(:member, campaign_id: @campaign.id)
       request.env["HTTP_ACCEPT"] = 'application/json'
+      post :create, params: {member: @new_member_attributes}
     end
     it "returns http success" do
-      post :create, params: {member: @new_member_attributes}
       expect(response).to have_http_status(:success)
     end
+    it "Member has the correct data" do
+      expect(Member.last.name).to eq(@new_member_attributes[:name])
+      expect(Member.last.email).to eq(@new_member_attributes[:email])
+    end
+    it "Member is associated a correct campaign" do
+      expect(Member.last.campaign).to eq(@campaign)
+    end
+    it "Cant have 2 member with the same email per campaign" do
+      post :create, params: {member: @new_member_attributes}
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
+
 
   describe "DELETE #destroy" do
     before(:each) do
@@ -34,9 +46,9 @@ RSpec.describe MembersController, type: :controller do
 
   describe "PUT #update" do
     before(:each) do
+      request.env["HTTP_ACCEPT"] = 'application/json'
       @new_member_attributes = attributes_for(:member, campaign_id: @campaign.id)
       member = create(:member, campaign_id: @campaign.id)
-      request.env["HTTP_ACCEPT"] = 'application/json'
       put :update, params: {id: member.id, member: @new_member_attributes}
     end
    
@@ -44,9 +56,14 @@ RSpec.describe MembersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "Campaign have the new attributes" do
+    it "Member has the new attributes" do
       expect(Member.last.name).to eq(@new_member_attributes[:name])
       expect(Member.last.email).to eq(@new_member_attributes[:email])
+    end
+    it "Cant have 2 member with the same email per campaign" do
+      member = create(:member, campaign_id: @campaign.id)
+      put :update, params: {id: member.id, member: @new_member_attributes}
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 

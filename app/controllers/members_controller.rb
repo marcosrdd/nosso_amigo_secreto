@@ -7,7 +7,7 @@ class MembersController < ApplicationController
 
   def create
     @member = Member.new(member_params)
-  
+
     respond_to do |format|
       if @member.save
         format.json { render json: @member }
