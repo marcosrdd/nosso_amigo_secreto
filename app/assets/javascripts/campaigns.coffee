@@ -1,4 +1,8 @@
 $(document).on 'turbolinks:load', ->
+  #M.Modal._count = 0
+  $('.modal').modal()
+  
+
   $('.update_campaign input').bind 'blur', ->
     $('.update_campaign').submit()
 
@@ -13,8 +17,8 @@ $(document).on 'turbolinks:load', ->
           Materialize.toast('Problema na atualização da Campanha', 4000, 'red')
     return false
 
-  $('.remove_campaign').on 'submit', (e) ->
-    $.ajax e.target.action,
+  $('#remove-campaign').on 'click', (e) ->
+    $.ajax
         type: 'DELETE'
         dataType: 'json',
         data: {}
@@ -34,3 +38,6 @@ $(document).on 'turbolinks:load', ->
         error: (jqXHR, textStatus, errorThrown) ->
           Materialize.toast(jqXHR.responseText, 4000, 'red')
     return false
+
+
+  return

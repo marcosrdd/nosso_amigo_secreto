@@ -98,9 +98,12 @@
   <div class="row btn-actions">
     <div class="col s12 center">
       <div class="col s6 m3 offset-m3 l2 offset-l4">
-        <%= form_for @campaign, method: 'delete', html: {class: 'remove_campaign'} do |f| %>
+      <!--
+        <%#= form_for @campaign, method: 'delete', html: {class: 'remove_campaign'} do |f| %>
           <button type='submit' class="waves-effect waves-light btn grey">Remover</button>
-        <% end %>
+        <%# end %>
+      -->
+        <button data-target="confirmation-modal" class="btn modal-trigger btn grey">Remover</button>
       </div>
       <div class="col s6 m3 l3">
         <%= form_tag(raffle_campaign_path(@campaign), method: 'post', class: 'raffle_campaign') do %>
@@ -108,5 +111,16 @@
         <% end %>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="confirmation-modal" class="modal">
+  <div class="modal-content">
+    <h5>Remover Campanha</h5>
+    <p>Deseja realmente excluir essa campanha <%= @campaign.title%>?</p>
+  </div>
+  <div class="modal-footer">
+    <p class="modal-action modal-close waves-effect waves-red btn-flat">Não</p>
+    <p id="remove-campaign" class="modal-action modal-close waves-effect waves-red btn-flat">Remover</p>
   </div>
 </div>
