@@ -54,14 +54,17 @@
             <% @campaign.members.each do |m| %>
               <div class="member" id="member_<%= m.id %>">
                 <div class="row">
-                  <div class="col s12 m5 input-field">
-                    <input id="name" type="text" class="validate" value="<%= m.name %>">
-                    <label for="name" class="active">Nome</label>
-                  </div>
-                  <div class="col s12 m5 input-field">
-                    <input id="email" type="email" class="validate" value="<%= m.email %>">
-                    <label for="email" class="active" data-error="Formato incorreto">Email</label>
-                  </div>
+                  <%= form_for m do |f| %>
+                    <div class="col s12 m5 input-field">
+                      <%= f.text_field :name, id: "name_member_#{m.id}", 'data-id': m.id, class: "validate member_update" %>
+                      <label for="name_member_<%=m.id%>" class="active">Nome</label>
+                    </div>
+                    <div class="col s12 m5 input-field">
+                      <%= f.email_field :email, id: "email_member_#{m.id}", 'data-id': m.id, class: "validate member_update" %>
+                      <label for="email_member_<%=m.id%> class="active" data-error="Formato incorreto">Email</label>
+                    </div>
+                  <% end %>
+
                   <div class="col s3 offset-s3 m1 input-field">
                     <i class="material-icons icon <%= (m.open)? 'opened' : '' %>">visibility</i>
                   </div>
@@ -107,7 +110,7 @@
       </div>
       <div class="col s6 m3 l3">
         <%= form_tag(raffle_campaign_path(@campaign), method: 'post', class: 'raffle_campaign') do %>
-          <button type='submit' class="waves-effect waves-light btn red">Sortear e enviar</button>
+          <button type='submit' class="waves-effect waves-light btn red">Sortear</button>
         <% end %>
       </div>
     </div>
