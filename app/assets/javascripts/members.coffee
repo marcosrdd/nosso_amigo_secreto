@@ -10,17 +10,18 @@ $(document).on 'turbolinks:load', ->
   $('.member_update').bind 'blur', (e) ->
     memberId = $("#"+e.currentTarget.id).attr('data-id')
     if valid_email($('#email_member_'+memberId).val()) && $('#name_member_'+memberId).val() != ""
-      $('#edit_member').submit()
+      $('#edit_member_'+memberId).submit()
 
-  $('.edit_member').on 'submit', (e) ->
-    $.ajax e.target.action,
+  $('.update_member').on 'submit', (e) ->
+    id_member = $("#"+e.currentTarget.id).attr('data-id')
+    $.ajax '/members/'+ id_member,
         type: 'PUT'
         dataType: 'json',
         data: $("#"+e.currentTarget.id).serialize()
         success: (data, text, jqXHR) ->
           Materialize.toast('Membro atualizado', 4000, 'green')
         error: (jqXHR, textStatus, errorThrown) ->
-          Materialize.toast('Problema ao atualizar Membro', 4000, 'red')
+          Materialize.toast('Problema ao atualizar Membro'+textStatus, 4000, 'red')
     return false
 
   $('body').on 'click', 'a.remove_member', (e) ->

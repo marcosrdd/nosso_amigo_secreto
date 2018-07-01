@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :authenticate_user!, except: [:opened]
+  #before_action :authenticate_user!, except: [:opened]
 
   before_action :set_member, only: [:show, :destroy, :update]
   before_action :is_owner?, only: [:destroy, :update]
