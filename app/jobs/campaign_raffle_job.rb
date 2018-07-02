@@ -11,7 +11,7 @@ class CampaignRaffleJob < ApplicationJob
     campaign.update(status: :finished)
 
 
-    if results == true
+    if results == false
       CampaignMailer.error(campaign).deliver_now
     end
   end
