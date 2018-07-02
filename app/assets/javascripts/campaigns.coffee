@@ -18,7 +18,7 @@ $(document).on 'turbolinks:load', ->
     return false
 
   $('#remove-campaign').on 'click', (e) ->
-    $.ajax
+    $.ajax e.target.action, 
         type: 'DELETE'
         dataType: 'json',
         data: {}
