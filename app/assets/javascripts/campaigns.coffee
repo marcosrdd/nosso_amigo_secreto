@@ -1,5 +1,5 @@
 $(document).on 'turbolinks:load', ->
-  #M.Modal._count = 0
+  Materialize.Modal._count = 0
   $('.modal').modal()
   
 
